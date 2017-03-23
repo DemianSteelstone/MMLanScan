@@ -86,6 +86,8 @@ MMLanScannerStatus;
  */
 @property(nonatomic,assign,readonly)BOOL isScanning;
 
+@property(nonatomic) NSInteger maxPingOperationsCount;
+
 /*!
  @brief Starts the scanning
  */

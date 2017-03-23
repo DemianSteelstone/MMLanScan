@@ -106,6 +106,7 @@ static const float PING_TIMEOUT = 1;
 -(void)finish {
 
     //Removes timer from the NSRunLoop
+    [_simplePing stop];
     [_keepAliveTimer invalidate];
     _keepAliveTimer = nil;
     
