@@ -31,19 +31,20 @@ static const float PING_TIMEOUT = 1;
     NSTimer *pingTimer;
 }
 
--(instancetype)initWithIPToPing:(NSString*)ip andCompletionHandler:(nullable void (^)(NSError  * _Nullable error, NSString  * _Nonnull ip))result;{
+-(instancetype)initWithIPToPing:(NSString*)ip
+           andCompletionHandler:(nullable void (^)(NSError  * _Nullable error, NSString  * _Nonnull ip))result
+{
 
     self = [super init];
     
     if (self) {
         self.name = ip;
         self.ipStr= ip;
-        self.simplePing = [SimplePing simplePingWithHostName:ip];
+        self.simplePing = [[SimplePing alloc] initWithHostName:ip];
         self.simplePing.delegate = self;
         self.result = result;
         _isExecuting = NO;
         _isFinished = NO;
-
     }
     
     return self;
@@ -145,32 +146,38 @@ static const float PING_TIMEOUT = 1;
     //NSLog(@"start");
 }
 
-- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error {
-  
+- (void)simplePing:(SimplePing *)pinger didFailWithError:(NSError *)error
+{
     //  NSLog(@"failed");
     [pingTimer invalidate];
     errorMessage = error;
     [self finishedPing];
 }
 
-- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet error:(NSError *)error {
-    
+- (void)simplePing:(SimplePing *)pinger didFailToSendPacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber error:(NSError *)error
+{
     //NSLog(@"failed");
     [pingTimer invalidate];
     errorMessage = error;
     [self finishedPing];
 }
 
-- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet {
-   
+- (void)simplePing:(SimplePing *)pinger didReceivePingResponsePacket:(NSData *)packet sequenceNumber:(uint16_t)sequenceNumber
+{
     //NSLog(@"success");
     [pingTimer invalidate];
     [self finishedPing];
 }
 
-- (void)simplePing:(SimplePing *)pinger didSendPacket:(NSData *)packet {
+- (void)simplePing:(SimplePing *)pinger didSendPacket:(nonnull NSData *)packet sequenceNumber:(uint16_t)sequenceNumber
+{
     //This timer will fired pingTimeOut in case the SimplePing don't answer in the specific time
     pingTimer = [NSTimer scheduledTimerWithTimeInterval:PING_TIMEOUT target:self selector:@selector(pingTimeOut:) userInfo:nil repeats:NO];
+}
+
+-(void)simplePing:(SimplePing *)pinger didReceiveUnexpectedPacket:(NSData *)packet
+{
+    
 }
 
 - (void)pingTimeOut:(NSTimer *)timer {
