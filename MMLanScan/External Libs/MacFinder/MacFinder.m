@@ -16,6 +16,20 @@
 
 @implementation MacFinder
 
++(NSData *)ipToRaw:(NSString *)strIP
+{
+    const char *ip = [strIP UTF8String];
+    
+    struct sockaddr_in ip4addr;
+    
+    ip4addr.sin_len = sizeof(struct sockaddr_in);
+    ip4addr.sin_family = AF_INET;
+    
+    inet_pton(AF_INET, ip, &ip4addr.sin_addr);
+    
+    return [NSData dataWithBytes:&ip4addr length:sizeof(ip4addr)];
+}
+
 +(NSString*)ip2mac: (NSString*)strIP {
     
     const char *ip = [strIP UTF8String];

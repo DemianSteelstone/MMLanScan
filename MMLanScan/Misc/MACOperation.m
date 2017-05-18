@@ -99,9 +99,10 @@
 #pragma mark - Ping Result callback
 -(void)getMACDetails{
     
-    self.device.ipAddress=self.ipStr;
-    self.device.macAddress =[[MacFinder ip2mac:self.device.ipAddress] uppercaseString];
+    self.device.ipAddress = self.ipStr;
+    self.device.macAddress = [[MacFinder ip2mac:self.device.ipAddress] uppercaseString];
     self.device.hostname = [LANProperties getHostFromIPAddress:self.ipStr];
+    self.device.rawAddress = [MacFinder ipToRaw:self.device.ipAddress];
     
     if (!self.device.macAddress) {
  

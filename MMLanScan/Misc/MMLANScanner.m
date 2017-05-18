@@ -104,7 +104,9 @@
         }];
         
         //The Find MAC Address for each operation
-        MACOperation *macOperation = [[MACOperation alloc] initWithIPToRetrieveMAC:ipStr andBrandDictionary:self.brandDictionary andCompletionHandler:^(NSError * _Nullable error, NSString * _Nonnull ip, Device * _Nonnull device) {
+        MACOperation *macOperation = [[MACOperation alloc] initWithIPToRetrieveMAC:ipStr
+                                                                andBrandDictionary:self.brandDictionary
+                                                              andCompletionHandler:^(NSError * _Nullable error, NSString * _Nonnull ip, Device * _Nonnull device) {
             
             if (!weakSelf) {
                 return;

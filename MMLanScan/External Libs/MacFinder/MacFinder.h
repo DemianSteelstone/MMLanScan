@@ -18,5 +18,8 @@
 #include <arpa/inet.h>
 
 @interface MacFinder : NSObject;
-+(NSString*)ip2mac: (NSString*)strIP;
+
++(NSData *)ipToRaw:(NSString *)strIP;
++(NSString *)ip2mac: (NSString*)strIP;
+
 @end
