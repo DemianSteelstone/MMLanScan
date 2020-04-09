@@ -126,8 +126,11 @@
     for (int currentIndex = 0; currentIndex < [(__bridge NSArray *)hostnamesRef count]; currentIndex++) {
         [hostnames addObject:[(__bridge NSArray *)hostnamesRef objectAtIndex:currentIndex]];
     }
-    
-    return hostnames[0];
+    if (hostnames.count > 0) {
+        return hostnames[0];
+    } else {
+        return ipAddress;;
+    }
 }
 
 @end
